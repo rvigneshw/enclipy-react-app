@@ -1,83 +1,81 @@
-import { Modal, Button } from "antd";
-import React, { useState, useEffect } from "react";
-import { Input } from "antd";
+import { Modal, Button, Tooltip, Input } from "antd";
 
-export default function ClipBoardModal(props) {
+import React, { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import { AES } from "crypto-js";
+
+import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
+
+export default function ClipBoardModal({ refetch }) {
   const { TextArea } = Input;
-  const [loading, setLoading] = useState(false);
+  const [createClip, { data }] = useMutation(CREATE_CLIP, {
+    update(cache, { data }) {
+      // We use an update function here to write the
+      // new value of the GET_ALL_ClipS query.
+      const newClipFromResponse = data?.createClip.clip;
+      const existingClips = cache.readQuery({
+        query: GET_MY_CLIPS,
+      });
+      if (existingClips && newClipFromResponse) {
+        cache.writeQuery({
+          query: GET_MY_CLIPS,
+          data: {
+            clips: [...existingClips?.clips, newClipFromResponse],
+          },
+        });
+      }
+      setokButtonLoading(false);
+      setmodalVisible(false);
+      settextAreaValue("");
+    },
+  });
+
+  const [textAreaValue, settextAreaValue] = useState("");
+  const [modalVisible, setmodalVisible] = useState(false);
+  const [okButtonLoading, setokButtonLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [clipBoardText, setclipBoardText] = useState("");
-  const [visible, setVisible] = useState(false);
-  navigator.clipboard
-    .readText()
-    .then((text) => {
-      setclipBoardText(text);
-      console.log(text);
-      // let oldList = this.props.data;
-      // this.props.setData(
-      //   oldList.concat({
-      //     title: text,
-      //   })
-      // );
-      // console.log(oldList);
-    })
-    .catch((err) => {
-      console.log(err);
-      setError(true);
-    });
+
+  const handleAddFromClipboard = () => {
+    navigator.clipboard
+      .readText()
+      .then((text) => {
+        settextAreaValue(text);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+      });
+  };
+
   const showModal = () => {
-    setVisible(true);
+    setmodalVisible(true);
+  };
+  const encryptText = (text) => {
+    return AES.encrypt(text, "SECRET_TOKEN").toString();
   };
 
   const handleOk = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 3000);
+    setokButtonLoading(true);
+    let oldList = data;
+    createClip({ variables: { data: encryptText(textAreaValue) } });
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    setmodalVisible(false);
   };
-  const onChange = ({ target: { value } }) => {
-    console.log("v" + value);
-    setclipBoardText(value);
+  const onTextAreaValueChange = ({ target: { value } }) => {
+    settextAreaValue(value);
   };
-  let insideContent;
-  if (error) {
-    insideContent = <p>Some Error Occuerd</p>;
-  } else {
-    insideContent = (
-      <TextArea
-        value={clipBoardText}
-        onChange={onChange}
-        autoSize={{ minRows: 3, maxRows: 15 }}
-      />
-    );
-  }
-  useEffect(() => {
-    if (error) {
-      insideContent = <p>Some Error Occuerd</p>;
-    } else {
-      insideContent = (
-        <TextArea
-          value={clipBoardText}
-          onChange={onChange}
-          autoSize={{ minRows: 3, maxRows: 15 }}
-        />
-      );
-    }
-  }, [clipBoardText]);
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Add data from Clipboard
-      </Button>
+      <Tooltip title="Add Clip">
+        <Button shape="circle" type="primary" onClick={showModal}>
+          +
+        </Button>
+      </Tooltip>
       <Modal
-        visible={visible}
+        visible={modalVisible}
         title="Title"
         onOk={handleOk}
         onCancel={handleCancel}
@@ -88,14 +86,32 @@ export default function ClipBoardModal(props) {
           <Button
             key="submit"
             type="primary"
-            loading={loading}
+            loading={okButtonLoading}
             onClick={handleOk}
           >
             Add this Clip
           </Button>,
         ]}
       >
-        {insideContent}
+        {error ? (
+          <p>Some Error Occuerd</p>
+        ) : (
+          <>
+            <Button
+              key="back"
+              type="dashed"
+              block
+              onClick={handleAddFromClipboard}
+            >
+              Add From ClipBoard
+            </Button>
+            <TextArea
+              value={textAreaValue}
+              onChange={onTextAreaValueChange}
+              autoSize={{ minRows: 3, maxRows: 15 }}
+            />
+          </>
+        )}
       </Modal>
     </>
   );

@@ -63,12 +63,18 @@ export default class AppHeader extends React.Component {
             theme={this.state.themeMode}
             style={{ position: "fixed", zIndex: 1, width: "100%" }}
           >
-            <SubMenu key="SubMenu" icon={<PlusCircleTwoTone />}>
-              <Menu.Item key="addFromClip">
-                <ClipBoardModal />
-              </Menu.Item>
-              <Menu.Item key="enterText">Enter Text</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="app">
+              <ClipBoardModal
+                data={this.props.data}
+                refetch={this.props.refetch}
+              />
+            </Menu.Item>
+            {/* <SubMenu key="SubMenu" icon={<PlusCircleTwoTone />}> */}
+            {/*   <Menu.Item key="addFromClip"> */}
+            {/*      */}
+            {/*   </Menu.Item> */}
+            {/*   <Menu.Item key="enterText">Enter Text</Menu.Item> */}
+            {/* </SubMenu> */}
           </Menu>
         </Col>
       </Row>
