@@ -1,9 +1,12 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { ApolloOfflineClient, createDefaultCacheStorage } from "offix-client";
+import { CachePersistor } from "apollo-cache-persist";
 
 const httpLink = createHttpLink({
   uri: "https://enclipy-api.herokuapp.com/graphql",
 });
+const cache = new InMemoryCache();
 
 const authLink = setContext((_, { headers }) => {
   // const token = localStorage.getItem('token');
@@ -18,7 +21,14 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+const cachePersistor = new CachePersistor({
+  cache,
+  storage: createDefaultCacheStorage(),
+});
+
+const link = authLink.concat(httpLink);
+export const client = new ApolloOfflineClient({
+  cache,
+  cachePersistor,
+  link,
 });

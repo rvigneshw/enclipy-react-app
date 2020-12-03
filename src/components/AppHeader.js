@@ -1,6 +1,11 @@
 import React from "react";
-import { Menu, Switch } from "antd";
-import { UserOutlined, PlusCircleTwoTone } from "@ant-design/icons";
+import { Menu, Switch, Button } from "antd";
+import {
+  UserOutlined,
+  PlusCircleTwoTone,
+  SearchOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import { Row, Col } from "antd";
 
 import ClipBoardModal from "./ClipBoardModal";
@@ -35,47 +40,35 @@ export default class AppHeader extends React.Component {
 
   render() {
     const { current } = this.state;
+
     return (
-      <Row>
-        <Col span={6}>
-          <Menu
-            onClick={this.handleClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-            theme={this.state.themeMode}
-            style={{ position: "fixed", zIndex: 1, width: "100%" }}
-          >
-            <SubMenu
-              key="SubMenu"
-              icon={<UserOutlined />}
-              title=" Welcome, Vigneshwaran"
-            >
-              <Menu.Item key="setting:1">Edit Profile</Menu.Item>
-              <Menu.Item key="setting:2">Logout</Menu.Item>
-            </SubMenu>
-          </Menu>
+      <Row justify="center">
+        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<UserOutlined />}
+            size="large"
+          />
         </Col>
-        <Col span={6} offset={12}>
-          <Menu
-            onClick={this.handleClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-            theme={this.state.themeMode}
-            style={{ position: "fixed", zIndex: 1, width: "100%" }}
-          >
-            <Menu.Item key="app">
-              <ClipBoardModal
-                data={this.props.data}
-                refetch={this.props.refetch}
-              />
-            </Menu.Item>
-            {/* <SubMenu key="SubMenu" icon={<PlusCircleTwoTone />}> */}
-            {/*   <Menu.Item key="addFromClip"> */}
-            {/*      */}
-            {/*   </Menu.Item> */}
-            {/*   <Menu.Item key="enterText">Enter Text</Menu.Item> */}
-            {/* </SubMenu> */}
-          </Menu>
+        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<SettingOutlined />}
+            size="large"
+          />
+        </Col>
+        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<SearchOutlined />}
+            size="large"
+          />
+        </Col>
+        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
+          <ClipBoardModal data={this.props.data} refetch={this.props.refetch} />
         </Col>
       </Row>
     );
