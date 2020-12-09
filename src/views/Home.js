@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import CardList from "../components/CardList";
 
-const Home = (props) => {
-  return <CardList data={props.data} />;
-};
+function Home(props) {
+  return <CardList />;
+}
 
 export default Home;

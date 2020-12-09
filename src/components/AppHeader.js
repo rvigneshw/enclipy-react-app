@@ -9,6 +9,9 @@ import {
 import { Row, Col } from "antd";
 
 import ClipBoardModal from "./ClipBoardModal";
+import SettingsModal from "./SettingsModal";
+import ProfileModal from "./ProfileModal";
+
 import ToggleButton from "./ToggleButton";
 const { SubMenu } = Menu;
 
@@ -18,22 +21,7 @@ export default class AppHeader extends React.Component {
     themeMode: "light",
   };
 
-  handleClick = (e) => {
-    switch (e.key) {
-      case "enterText":
-        let oldList2 = this.props.data;
-        this.props.setData(
-          oldList2.concat({
-            title: "Title enterText",
-          })
-        );
-        break;
-
-      default:
-        break;
-    }
-  };
-
+  
   changeTheme = (e) => {
     this.setState({ themeMode: e.value ? "dark" : "light" });
   };
@@ -42,24 +30,44 @@ export default class AppHeader extends React.Component {
     const { current } = this.state;
 
     return (
-      <Row justify="center">
-        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<UserOutlined />}
-            size="large"
-          />
+      <Row justify="center" style={{ marginTop: 2, background: "#FFF" }}>
+        <Col
+          xs={{ span: 5 }}
+          sm={{ span: 4 }}
+          md={{ span: 2 }}
+          lg={{ span: 1 }}
+          xl={{ span: 1 }}
+        >
+          <ProfileModal />
+          {/* <Button */}
+          {/*   type="primary" */}
+          {/*   shape="circle" */}
+          {/*   icon={<UserOutlined />} */}
+          {/*   size="large" */}
+          {/* /> */}
         </Col>
-        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<SettingOutlined />}
-            size="large"
-          />
+        <Col
+          xs={{ span: 5 }}
+          sm={{ span: 4 }}
+          md={{ span: 2 }}
+          lg={{ span: 1 }}
+          xl={{ span: 1 }}
+        >
+          <SettingsModal />
+          {/* <Button */}
+          {/*   type="primary" */}
+          {/*   shape="circle" */}
+          {/*   icon={<SettingOutlined />} */}
+          {/*   size="large" */}
+          {/* /> */}
         </Col>
-        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
+        <Col
+          xs={{ span: 5 }}
+          sm={{ span: 4 }}
+          md={{ span: 2 }}
+          lg={{ span: 1 }}
+          xl={{ span: 1 }}
+        >
           <Button
             type="primary"
             shape="circle"
@@ -67,8 +75,14 @@ export default class AppHeader extends React.Component {
             size="large"
           />
         </Col>
-        <Col xs={{ span: 4 }} lg={{ span: 1 }}>
-          <ClipBoardModal data={this.props.data} refetch={this.props.refetch} />
+        <Col
+          xs={{ span: 5 }}
+          sm={{ span: 4 }}
+          md={{ span: 2 }}
+          lg={{ span: 1 }}
+          xl={{ span: 1 }}
+        >
+          <ClipBoardModal />
         </Col>
       </Row>
     );

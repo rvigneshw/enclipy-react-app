@@ -8,28 +8,21 @@ import { GET_MY_CLIPS } from "./GraphqlQueries";
 import "./App.css";
 
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { useNetworkStatus } from "react-offix-hooks";
 const App = () => {
   const { Header, Content, Footer } = Layout;
-  const { loading, error, data, refetch } = useQuery(GET_MY_CLIPS);
-  const isOnline = useNetworkStatus();
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
 
   return (
     <div className="App">
-      <Layout className="layout">
-        <p>isOnline</p>
-        <AppHeader refetch={refetch} data={data.clips} />
+      <Layout className="layout" style={{ background: "#FFF" }}>
+        <AppHeader />
         <Content
           style={{
             padding: "0 10px",
-            marginTop: 50,
+            marginTop: 20,
             height: "100%",
           }}
         >
-          <AppRouter refetch={refetch} data={data.clips} />
+          <AppRouter />
         </Content>
         {/* <Footer */}
         {/*   style={{ */}

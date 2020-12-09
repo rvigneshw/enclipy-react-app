@@ -22,7 +22,7 @@ const AppRouter = (props) => {
       <Switch>
         <RequireAuth>
           <Route path="/">
-            <Home data={props.data} />
+            <Home />
           </Route>
         </RequireAuth>
         <Route path="/login" component={Login} />

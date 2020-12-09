@@ -31,3 +31,14 @@ export const DELETE_CLIP = gql`
     }
   }
 `;
+export const UPDATE_CLIP = gql`
+  mutation UPDATE_CLIP($data: String!, $id: ID!) {
+    updateClip(input: { where: { id: $id }, data: { data: $data } }) {
+      clip {
+        id
+        data
+        updated_at
+      }
+    }
+  }
+`;

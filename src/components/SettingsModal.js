@@ -1,5 +1,5 @@
 import { Modal, Button, Tooltip, Input } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { SettingOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 
@@ -7,19 +7,7 @@ import { AES } from "crypto-js";
 
 import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 
-export default function ClipBoardModal(props) {
-  //   const [addClip] = useOfflineMutation(CREATE_CLIP);
-  //
-  //   async function handleSubmit() {
-  //     try {
-  //       await addClip({ variables: { data: encryptText(textAreaValue) } });
-  //     } catch (error) {
-  //       if (error.offline) {
-  //         error.watchOfflineChange();
-  //       }
-  //     }
-  //   }
-
+export default function SettingsModal(props) {
   const { TextArea } = Input;
   const [createClip, { data }] = useMutation(CREATE_CLIP, {
     update(cache, { data }) {
@@ -84,13 +72,13 @@ export default function ClipBoardModal(props) {
 
   return (
     <>
-      <Tooltip title="Add Clip">
+      <Tooltip title="Settings">
         <Button
           shape="circle"
           type="primary"
           onClick={showModal}
           size="large"
-          icon={<PlusCircleOutlined />}
+          icon={<SettingOutlined />}
         />
       </Tooltip>
       <Modal

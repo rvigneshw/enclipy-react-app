@@ -1,5 +1,5 @@
 import { Modal, Button, Tooltip, Input } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 
@@ -7,7 +7,7 @@ import { AES } from "crypto-js";
 
 import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 
-export default function ClipBoardModal(props) {
+export default function ProfileModal(props) {
   //   const [addClip] = useOfflineMutation(CREATE_CLIP);
   //
   //   async function handleSubmit() {
@@ -84,13 +84,13 @@ export default function ClipBoardModal(props) {
 
   return (
     <>
-      <Tooltip title="Add Clip">
+      <Tooltip title="Your Profile">
         <Button
           shape="circle"
           type="primary"
           onClick={showModal}
           size="large"
-          icon={<PlusCircleOutlined />}
+          icon={<UserOutlined />}
         />
       </Tooltip>
       <Modal

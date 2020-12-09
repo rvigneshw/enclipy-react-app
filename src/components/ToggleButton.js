@@ -14,13 +14,13 @@ export default class ToggleButton extends React.Component {
 
   render() {
     return (
-        <Button
-          type="primary"
-          onClick={this.changeTheme}
-          style={{ marginTop: 16 }}
-        >
-          {this.state.darkMode ? "Light Mode" : "Dark Mode"}
-        </Button>
+      <Button
+        type="primary"
+        onClick={this.changeTheme}
+        style={{ marginTop: 16 }}
+      >
+        {this.state.darkMode ? "Light Mode" : "Dark Mode"}
+      </Button>
     );
   }
 }
