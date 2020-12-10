@@ -3,7 +3,7 @@ import { List } from "antd";
 import { ClipCard } from "./ClipCard";
 import { useQuery } from "@apollo/client";
 import { GET_MY_CLIPS } from "../GraphqlQueries";
-
+import Loading from "../views/Loading";
 const gridConfig = {
   gutter: 16,
   xs: 1,
@@ -16,7 +16,7 @@ const gridConfig = {
 
 export default function CardList(props) {
   const { loading, error, data, refetch } = useQuery(GET_MY_CLIPS);
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   if (error) return `Error! ${error.message}`;
   return (
     <List

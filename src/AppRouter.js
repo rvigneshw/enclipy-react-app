@@ -4,13 +4,15 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Home from "./views/Home";
 import Login from "./views/Login";
+import LoginRedirect from "./views/LoginRedirect";
 
 const fakeAuth = {
   signedIn: true,
 };
 
 const RequireAuth = ({ children }) => {
-  if (!fakeAuth.signedIn) {
+  // const [isLogged, setIsLogged] = useState(!!localStorage.getItem('jwt'));
+  if (!localStorage.getItem('jwt')) {
     return <Redirect to="/login" />;
   }
 
@@ -20,12 +22,14 @@ const AppRouter = (props) => {
   return (
     <Router>
       <Switch>
+        <Route path="/auth/google/callback" component={LoginRedirect} />
+        <Route path="/login" component={Login} />
         <RequireAuth>
-          <Route path="/">
+          <Route path="/" exact>
             <Home />
           </Route>
         </RequireAuth>
-        <Route path="/login" component={Login} />
+        
         {/* <Route component={Error} /> */}
       </Switch>
     </Router>

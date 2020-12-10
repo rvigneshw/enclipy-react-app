@@ -2,12 +2,14 @@ import { Modal, Button, Tooltip, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
+import { useHistory } from "react-router-dom";
 
 import { AES } from "crypto-js";
 
 import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 
 export default function ProfileModal(props) {
+  const history = useHistory();
   //   const [addClip] = useOfflineMutation(CREATE_CLIP);
   //
   //   async function handleSubmit() {
@@ -19,6 +21,11 @@ export default function ProfileModal(props) {
   //       }
   //     }
   //   }
+  
+  const logout = (e) => {
+    
+    // setIsLogged(false);
+  };
 
   const { TextArea } = Input;
   const [createClip, { data }] = useMutation(CREATE_CLIP, {
@@ -95,7 +102,7 @@ export default function ProfileModal(props) {
       </Tooltip>
       <Modal
         visible={modalVisible}
-        title="Add Clip"
+        title="Your Profile"
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[
@@ -118,11 +125,18 @@ export default function ProfileModal(props) {
           <>
             <Button
               key="back"
-              type="dashed"
+              type="danger"
               block
-              onClick={handleAddFromClipboard}
+              onClick={(e)=>{
+e.preventDefault();
+    
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('username');
+    localStorage.removeItem('user');
+    window.location.href="/"
+                }}
             >
-              Add From ClipBoard
+              Logout
             </Button>
             <TextArea
               value={textAreaValue}

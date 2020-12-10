@@ -8,23 +8,10 @@ import { AES } from "crypto-js";
 import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 
 export default function ClipBoardModal(props) {
-  //   const [addClip] = useOfflineMutation(CREATE_CLIP);
-  //
-  //   async function handleSubmit() {
-  //     try {
-  //       await addClip({ variables: { data: encryptText(textAreaValue) } });
-  //     } catch (error) {
-  //       if (error.offline) {
-  //         error.watchOfflineChange();
-  //       }
-  //     }
-  //   }
-
+  
   const { TextArea } = Input;
   const [createClip, { data }] = useMutation(CREATE_CLIP, {
     update(cache, { data }) {
-      // We use an update function here to write the
-      // new value of the GET_ALL_ClipS query.
       const newClipFromResponse = data?.createClip.clip;
       const existingClips = cache.readQuery({
         query: GET_MY_CLIPS,

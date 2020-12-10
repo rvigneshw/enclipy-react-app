@@ -83,7 +83,7 @@ export default function SettingsModal(props) {
       </Tooltip>
       <Modal
         visible={modalVisible}
-        title="Add Clip"
+        title="Settings"
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[
