@@ -40,7 +40,9 @@ export default class AppHeader extends React.Component {
         <AppHeaderSearchOn handleSearchOn={this.handleSearchOn.bind(this)} />
       );
     }
-
+    if (this.props.loading) {
+      return <AppHeaderLoading />;
+    }
     if (!localStorage.getItem("jwt")) return <AppHeaderNotLoggedIn />;
 
     return (
@@ -155,6 +157,24 @@ function AppHeaderSearchOn(props) {
           size="large"
           onClick={props.handleSearchOn}
         />
+      </Col>
+    </Row>
+  );
+}
+
+function AppHeaderLoading(props) {
+  return (
+    <Row justify="center" style={{ marginTop: 2, background: "#FFF" }}>
+      <Col
+        xs={{ span: 24 }}
+        sm={{ span: 20 }}
+        md={{ span: 8 }}
+        lg={{ span: 4 }}
+        xl={{ span: 4 }}
+      >
+        <Button type="primary" shape="round" block size="large" loading>
+          Enclipy
+        </Button>
       </Col>
     </Row>
   );
