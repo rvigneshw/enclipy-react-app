@@ -7,9 +7,7 @@ const httpLink = createHttpLink({
 const cache = new InMemoryCache();
 
 const authLink = setContext((_, { headers }) => {
-  // const token = localStorage.getItem('token');
   const token =localStorage.getItem('jwt');
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,

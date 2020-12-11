@@ -11,7 +11,6 @@ const fakeAuth = {
 };
 
 const RequireAuth = ({ children }) => {
-  // const [isLogged, setIsLogged] = useState(!!localStorage.getItem('jwt'));
   if (!localStorage.getItem('jwt')) {
     return <Redirect to="/login" />;
   }

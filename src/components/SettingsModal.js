@@ -1,4 +1,4 @@
-import { Modal, Button, Tooltip, Input } from "antd";
+import { Modal, Button, Tooltip, Input, Typography } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
@@ -8,6 +8,7 @@ import { AES } from "crypto-js";
 import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 
 export default function SettingsModal(props) {
+  const { Title } = Typography;
   const { TextArea } = Input;
   const [createClip, { data }] = useMutation(CREATE_CLIP, {
     update(cache, { data }) {
