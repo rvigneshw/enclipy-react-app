@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Typography, Input, Button, message, Popconfirm } from "antd";
+import { Row, Col } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -23,10 +24,14 @@ const encryptText = (text) => {
 };
 
 export function ClipCard({ data, refetch }) {
-  const { Paragraph } = Typography;
+  const { Paragraph, Text } = Typography;
   const { TextArea } = Input;
   const id = data.id;
   const encryptedData = data.data;
+  const updated_date = new Date(data.updated_at);
+  const updated_at = `${updated_date.toDateString()} at ${updated_date.toLocaleTimeString(
+    "en-US"
+  )}`;
   const [dataToDisplay, setDataToDisplay] = useState(
     decryptText(encryptedData)
   );
@@ -145,74 +150,91 @@ export function ClipCard({ data, refetch }) {
         // <TextArea  allowClear onChange={onChange} />
         <Paragraph>{decryptText(data.data)}</Paragraph>
       )}
-      <Button
-        type="primary"
-        shape="circle"
-        icon={<CopyOutlined />}
-        onClick={(e) => {
-          var result = copyTextToClipboard(
-            decryptText(encryptedData),
-            copySuccess,
-            copyError
-          );
-        }}
-      />
-      {editable ? (
-        <>
+
+      <Row justify="center">
+        <Col>
           <Button
-            type="default"
+            type="primary"
             shape="circle"
-            icon={<SaveOutlined />}
-            loading={saveButtonLoading}
+            icon={<CopyOutlined />}
             onClick={(e) => {
-              setsaveButtonLoading(true);
-              updateClip({
-                variables: { id: id, data: encryptText(dataToDisplay) },
-              });
+              var result = copyTextToClipboard(
+                decryptText(encryptedData),
+                copySuccess,
+                copyError
+              );
+            }}
+          />
+        </Col>
+
+        {editable ? (
+          <>
+            <Col>
+              <Button
+                type="default"
+                shape="circle"
+                icon={<SaveOutlined />}
+                loading={saveButtonLoading}
+                onClick={(e) => {
+                  setsaveButtonLoading(true);
+                  updateClip({
+                    variables: { id: id, data: encryptText(dataToDisplay) },
+                  });
+                  refetch();
+                }}
+              />
+            </Col>
+            <Col>
+              <Button
+                type="default"
+                shape="circle"
+                icon={<CloseOutlined />}
+                onClick={(e) => {
+                  setDataToDisplay(decryptText(encryptedData));
+                  setEditable(!editable);
+                }}
+              />
+            </Col>
+          </>
+        ) : (
+          <Col>
+            <Button
+              type="default"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={(e) => {
+                setEditable(!editable);
+              }}
+            />
+          </Col>
+        )}
+
+        <Col span={4}>
+          <Popconfirm
+            title="Are you sure to delete this Clip?"
+            onConfirm={(e) => {
+              setdeleteButtonLoading(true);
+              deleteClip({ variables: { id: id } });
               refetch();
             }}
-          />
-          <Button
-            type="default"
-            shape="circle"
-            icon={<CloseOutlined />}
-            onClick={(e) => {
-              setDataToDisplay(decryptText(encryptedData));
-              setEditable(!editable);
+            onCancel={(e) => {
+              message.warning("Deletion aborted!");
             }}
-          />
-        </>
-      ) : (
-        <Button
-          type="default"
-          shape="circle"
-          icon={<EditOutlined />}
-          onClick={(e) => {
-            setEditable(!editable);
-          }}
-        />
-      )}
-
-      <Popconfirm
-        title="Are you sure to delete this Clip?"
-        onConfirm={(e) => {
-          setdeleteButtonLoading(true);
-          deleteClip({ variables: { id: id } });
-          refetch();
-        }}
-        onCancel={(e) => {
-          message.warning("Deletion aborted!");
-        }}
-        okText="Yes"
-        cancelText="No"
-      >
-        <Button
-          type="danger"
-          shape="circle"
-          loading={deleteButtonLoading}
-          icon={<DeleteOutlined />}
-        />
-      </Popconfirm>
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              type="danger"
+              shape="circle"
+              loading={deleteButtonLoading}
+              icon={<DeleteOutlined />}
+            />
+          </Popconfirm>
+        </Col>
+      </Row>
+      <Text type="secondary" style={{ fontSize: 10 }}>
+        Last Updated: {updated_at}
+      </Text>
     </Card>
   );
 }

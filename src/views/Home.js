@@ -8,20 +8,35 @@ import Loading from "./Loading";
 import { useQuery } from "@apollo/client";
 
 function Home(props) {
+  const [searchString, setsearchString] = useState("");
   const { loading, error, data, refetch } = useQuery(GET_MY_CLIPS);
   if (error) return `Error! ${error.message}`;
   const { Header, Content, Footer } = Layout;
+
   return (
     <div>
-      <AppHeader loading={loading} />
+      <AppHeader
+        searchString={searchString}
+        setsearchString={setsearchString}
+        loading={loading}
+      />
       <Content
         style={{
           padding: "0 10px",
-          marginTop: 20,
+          marginTop: 10,
           height: "100%",
         }}
       >
-        {loading ? <Loading /> : <CardList data={data} refetch={refetch} />}
+        {loading ? (
+          <Loading />
+        ) : (
+          <CardList
+            data={data}
+            refetch={refetch}
+            searchString={searchString}
+            setsearchString={setsearchString}
+          />
+        )}
       </Content>
     </div>
   );

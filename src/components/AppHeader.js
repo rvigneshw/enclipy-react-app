@@ -37,13 +37,19 @@ export default class AppHeader extends React.Component {
     // if (this.state.searchOpen) return <AppHeaderSearchOn />;
     if (this.state.searchOpen) {
       return (
-        <AppHeaderSearchOn handleSearchOn={this.handleSearchOn.bind(this)} />
+        <AppHeaderSearchOn
+          searchString={this.props.searchString}
+          setsearchString={this.props.setsearchString}
+          handleSearchOn={this.handleSearchOn.bind(this)}
+        />
       );
     }
     if (this.props.loading) {
       return <AppHeaderLoading />;
     }
-    if (!localStorage.getItem("jwt")) return <AppHeaderNotLoggedIn />;
+    if (!localStorage.getItem("jwt")) {
+      return <AppHeaderNotLoggedIn />;
+    }
 
     return (
       <Row justify="center" style={{ marginTop: 2, background: "#FFF" }}>
@@ -98,25 +104,11 @@ function AppHeaderNotLoggedIn(props) {
   return (
     <Row justify="center" style={{ marginTop: 2, background: "#FFF" }}>
       <Col
-        xs={{ span: 5 }}
-        sm={{ span: 4 }}
-        md={{ span: 2 }}
-        lg={{ span: 1 }}
-        xl={{ span: 1 }}
-      >
-        <Button
-          type="primary"
-          shape="circle"
-          icon={<LockOutlined />}
-          size="large"
-        />
-      </Col>
-      <Col
-        xs={{ span: 15 }}
-        sm={{ span: 12 }}
-        md={{ span: 6 }}
-        lg={{ span: 3 }}
-        xl={{ span: 3 }}
+        xs={{ span: 24 }}
+        sm={{ span: 20 }}
+        md={{ span: 8 }}
+        lg={{ span: 4 }}
+        xl={{ span: 4 }}
       >
         <Button type="primary" shape="round" block size="large">
           Enclipy
@@ -135,12 +127,14 @@ function AppHeaderSearchOn(props) {
         lg={{ span: 3 }}
         xl={{ span: 3 }}
       >
-        <Search
+        <Input
           placeholder="input search text"
-          onSearch={onSearch}
+          value={props.searchString}
+          onChange={({ target: { value } }) => {
+            props.setsearchString(value);
+          }}
           shape="round"
           size="large"
-          enterButton
         />
       </Col>
       <Col
@@ -155,7 +149,10 @@ function AppHeaderSearchOn(props) {
           shape="circle"
           icon={<CloseOutlined />}
           size="large"
-          onClick={props.handleSearchOn}
+          onClick={() => {
+            props.handleSearchOn();
+            props.setsearchString("");
+          }}
         />
       </Col>
     </Row>
