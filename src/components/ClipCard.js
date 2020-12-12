@@ -24,6 +24,7 @@ const encryptText = (text) => {
 };
 
 export function ClipCard({ data, refetch }) {
+  const viewMode = localStorage.getItem("view");
   const { Paragraph, Text } = Typography;
   const { TextArea } = Input;
   const id = data.id;
@@ -32,9 +33,7 @@ export function ClipCard({ data, refetch }) {
   const updated_at = `${updated_date.toDateString()} at ${updated_date.toLocaleTimeString(
     "en-US"
   )}`;
-  const [dataToDisplay, setDataToDisplay] = useState(
-    decryptText(encryptedData)
-  );
+  const [dataToDisplay, setDataToDisplay] = useState(encryptedData);
   const [editable, setEditable] = useState(false);
   const [saveButtonLoading, setsaveButtonLoading] = useState(false);
   const [viewDecrypted, setViewDecrypted] = useState(true);
@@ -48,25 +47,6 @@ export function ClipCard({ data, refetch }) {
         fieldName: "clip",
         id: newClipFromResponse.id,
       });
-
-      //       const existingClips = cache.readQuery({
-      //         query: GET_MY_CLIPS,
-      //       });
-      //
-      //       if (existingClips && newClipFromResponse) {
-      //         var newClips = existingClips?.clips.filter(function (item) {
-      //           return item.id !== newClipFromResponse.id;
-      //         });
-      //
-      //         cache.writeQuery({
-      //           query: GET_MY_CLIPS,
-      //           data: {
-      //             clips: newClips,
-      //           },
-      //         });
-      //
-      //         refetch();
-      //       }
       refetch();
       message.success("Clip deleted!");
       setdeleteButtonLoading(false);
@@ -74,8 +54,6 @@ export function ClipCard({ data, refetch }) {
   });
   const [updateClip] = useMutation(UPDATE_CLIP, {
     update(cache, { data }) {
-      // We use an update function here to write the
-      // new value of the GET_ALL_ClipS query.
       const newClipFromResponse = data?.updateClip.clip;
       const existingClips = cache.readQuery({
         query: GET_MY_CLIPS,
@@ -96,9 +74,6 @@ export function ClipCard({ data, refetch }) {
         setsaveButtonLoading(false);
         setEditable(false);
       }
-      // setokButtonLoading(false);
-      // setmodalVisible(false);
-      // settextAreaValue("");
     },
   });
 
@@ -111,12 +86,16 @@ export function ClipCard({ data, refetch }) {
     message.error("Unable to Copy, Please check Clipboard permissions");
   };
   const handleMouseOver = (e) => {
-    setViewDecrypted(true);
-    setDataToDisplay(decryptText(encryptedData));
+    if (!editable) {
+      setViewDecrypted(true);
+      setDataToDisplay(decryptText(encryptedData));
+    }
   };
   const handleMouseOut = (e) => {
-    setViewDecrypted(false);
-    setDataToDisplay(encryptedData);
+    if (!editable) {
+      setViewDecrypted(false);
+      setDataToDisplay(encryptedData);
+    }
   };
   const onTextAreaValueChange = ({ target: { value } }) => {
     setDataToDisplay(value);
@@ -124,20 +103,20 @@ export function ClipCard({ data, refetch }) {
   const handleClipUpdate = () => {};
   // setDataToDisplay(decryptText(encryptedData));
   return (
-    // <Card
-    //   onClick={handleClick}
-    //   onMouseOver={handleMouseOver}
-    //   onMouseOut={handleMouseOut}
-    //   hoverable
-    //   bordered={false}
-    //   style={{ margin: "0px" }}
-    // >
     <Card
       onClick={handleClick}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
       hoverable
       bordered={false}
       style={{ margin: "0px" }}
     >
+      {/* <Card */}
+      {/*   onClick={handleClick} */}
+      {/*   hoverable */}
+      {/*   bordered={false} */}
+      {/*   style={{ margin: "0px" }} */}
+      {/* > */}
       {editable ? (
         <TextArea
           allowClear
@@ -148,7 +127,9 @@ export function ClipCard({ data, refetch }) {
         />
       ) : (
         // <TextArea  allowClear onChange={onChange} />
-        <Paragraph>{decryptText(data.data)}</Paragraph>
+        <Paragraph>
+          {viewMode === "viewDecrypt" ? decryptText(data.data) : dataToDisplay}
+        </Paragraph>
       )}
 
       <Row justify="center">
