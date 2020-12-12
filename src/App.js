@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "antd";
-import { useQuery } from "@apollo/client";
+
 
 import AppRouter from "./AppRouter";
 
-import { GET_MY_CLIPS } from "./GraphqlQueries";
+
 import "./App.css";
 
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+
 
 const App = () => {
-  const { Header, Content, Footer } = Layout;
 
   return (
     <div className="App">

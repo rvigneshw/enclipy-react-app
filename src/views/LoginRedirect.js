@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { Result, Button } from "antd";
+import { Result } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { AES } from "crypto-js";
 

@@ -11,7 +11,7 @@ function Home(props) {
   const [searchString, setsearchString] = useState("");
   const { loading, error, data, refetch } = useQuery(GET_MY_CLIPS);
   if (error) return `Error! ${error.message}`;
-  const { Header, Content, Footer } = Layout;
+  const { Content } = Layout;
 
   return (
     <div>

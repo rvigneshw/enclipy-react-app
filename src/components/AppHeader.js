@@ -1,11 +1,7 @@
 import React from "react";
-import { Menu, Switch, Button, Input } from "antd";
+import { Button, Input } from "antd";
 import {
-  UserOutlined,
-  PlusCircleTwoTone,
   SearchOutlined,
-  SettingOutlined,
-  LockOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
 import { Row, Col } from "antd";
@@ -14,14 +10,9 @@ import ClipBoardModal from "./ClipBoardModal";
 import SettingsModal from "./SettingsModal";
 import ProfileModal from "./ProfileModal";
 
-import ToggleButton from "./ToggleButton";
-const { SubMenu } = Menu;
-const { Search } = Input;
-const onSearch = (value) => console.log(value);
 
 export default class AppHeader extends React.Component {
   state = {
-    current: "mail",
     themeMode: "light",
     searchOpen: false,
   };
@@ -33,7 +24,6 @@ export default class AppHeader extends React.Component {
     this.setState({ searchOpen: !this.state.searchOpen });
   };
   render() {
-    const { current } = this.state;
     // if (this.state.searchOpen) return <AppHeaderSearchOn />;
     if (this.state.searchOpen) {
       return (

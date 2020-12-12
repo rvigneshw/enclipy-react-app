@@ -1,20 +1,12 @@
 import { Modal, Button, Tooltip, Input, Typography } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import React, { useState } from "react";
 
 import { AES } from "crypto-js";
 
-import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
-
 export default function SettingsModal(props) {
-  const { Title } = Typography;
-  const { TextArea } = Input;
   
-  const [textAreaValue, settextAreaValue] = useState("");
   const [modalVisible, setmodalVisible] = useState(false);
-  const [okButtonLoading, setokButtonLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   
   const showModal = () => {
@@ -22,22 +14,16 @@ export default function SettingsModal(props) {
   };
   const encryptText = (text) => {
     return AES.encrypt(text, "SECRET_TOKEN").toString();
-    // return text;
   };
 
   const handleOk = () => {
-    setokButtonLoading(true);
-    let oldList = data;
-    createClip({ variables: { data: encryptText(textAreaValue) } });
+
   };
 
   const handleCancel = () => {
     setmodalVisible(false);
   };
-  const onTextAreaValueChange = ({ target: { value } }) => {
-    settextAreaValue(value);
-  };
-
+  
   return (
     <>
       <Tooltip title="Settings">
@@ -59,7 +45,6 @@ export default function SettingsModal(props) {
           <Button
             key="submit"
             type="primary"
-            loading={okButtonLoading}
             onClick={handleOk}
           >
             Add this Clip

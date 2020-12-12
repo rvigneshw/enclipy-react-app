@@ -1,6 +1,6 @@
 import { Modal, Button, Tooltip, Input } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 
 import { AES } from "crypto-js";
@@ -10,7 +10,7 @@ import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 export default function ClipBoardModal(props) {
   
   const { TextArea } = Input;
-  const [createClip, { data }] = useMutation(CREATE_CLIP, {
+  const [createClip] = useMutation(CREATE_CLIP, {
     update(cache, { data }) {
       const newClipFromResponse = data?.createClip.clip;
       const existingClips = cache.readQuery({
@@ -58,7 +58,6 @@ export default function ClipBoardModal(props) {
 
   const handleOk = () => {
     setokButtonLoading(true);
-    let oldList = data;
     createClip({ variables: { data: encryptText(textAreaValue) } });
   };
 

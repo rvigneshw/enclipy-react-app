@@ -1,5 +1,4 @@
 const fallbackCopyTextToClipboard = (text, success, error) => {
-  let done;
   var textArea = document.createElement("textarea");
   textArea.value = text;
 
@@ -14,7 +13,6 @@ const fallbackCopyTextToClipboard = (text, success, error) => {
 
   try {
     var successful = document.execCommand("copy");
-    var msg = successful ? "successful" : "unsuccessful";
     // console.log("Fallback: Copying text command was " + msg);
     if (successful) {
       success();
@@ -29,7 +27,6 @@ const fallbackCopyTextToClipboard = (text, success, error) => {
   document.body.removeChild(textArea);
 };
 export const copyTextToClipboard = (text, success, error) => {
-  let done;
   if (!navigator.clipboard) {
     fallbackCopyTextToClipboard(text, success, error);
     return;

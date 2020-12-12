@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { List } from "antd";
 import { AES, enc } from "crypto-js";
 import { ClipCard } from "./ClipCard";

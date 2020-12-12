@@ -1,12 +1,9 @@
-import { Modal, Button, Tooltip, Input, Typography } from "antd";
+import { Modal, Button, Tooltip,  Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import { Descriptions } from "antd";
 import { AES,enc } from "crypto-js";
 
-import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 const decryptText = (text) => {
   var bytes = AES.decrypt(text, localStorage.getItem("jwt"));
   var originalText = bytes.toString(enc.Utf8);

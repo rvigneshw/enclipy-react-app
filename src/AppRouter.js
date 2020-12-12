@@ -6,9 +6,6 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import LoginRedirect from "./views/LoginRedirect";
 
-const fakeAuth = {
-  signedIn: true,
-};
 
 const RequireAuth = ({ children }) => {
   if (!localStorage.getItem('jwt')) {

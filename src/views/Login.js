@@ -19,7 +19,7 @@ const introStyle = {
   fontSize:27
 };
 function Login() {
-  const { Header, Content, Footer } = Layout;
+  const { Content } = Layout;
   const { Title } = Typography;
 
   return (
