@@ -10,46 +10,13 @@ import { CREATE_CLIP, GET_MY_CLIPS } from "../GraphqlQueries";
 export default function SettingsModal(props) {
   const { Title } = Typography;
   const { TextArea } = Input;
-  const [createClip, { data }] = useMutation(CREATE_CLIP, {
-    update(cache, { data }) {
-      // We use an update function here to write the
-      // new value of the GET_ALL_ClipS query.
-      const newClipFromResponse = data?.createClip.clip;
-      const existingClips = cache.readQuery({
-        query: GET_MY_CLIPS,
-      });
-      if (existingClips && newClipFromResponse) {
-        cache.writeQuery({
-          query: GET_MY_CLIPS,
-          data: {
-            clips: [...existingClips?.clips, newClipFromResponse],
-          },
-        });
-      }
-      // refetch();
-      setokButtonLoading(false);
-      setmodalVisible(false);
-      settextAreaValue("");
-    },
-  });
-
+  
   const [textAreaValue, settextAreaValue] = useState("");
   const [modalVisible, setmodalVisible] = useState(false);
   const [okButtonLoading, setokButtonLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleAddFromClipboard = () => {
-    navigator.clipboard
-      .readText()
-      .then((text) => {
-        settextAreaValue(text);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-      });
-  };
-
+  
   const showModal = () => {
     setmodalVisible(true);
   };
@@ -85,8 +52,6 @@ export default function SettingsModal(props) {
       <Modal
         visible={modalVisible}
         title="Settings"
-        onOk={handleOk}
-        onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
@@ -101,25 +66,6 @@ export default function SettingsModal(props) {
           </Button>,
         ]}
       >
-        {error ? (
-          <p>Some Error Occuerd</p>
-        ) : (
-          <>
-            <Button
-              key="back"
-              type="dashed"
-              block
-              onClick={handleAddFromClipboard}
-            >
-              Add From ClipBoard
-            </Button>
-            <TextArea
-              value={textAreaValue}
-              onChange={onTextAreaValueChange}
-              autoSize={{ minRows: 3, maxRows: 15 }}
-            />
-          </>
-        )}
       </Modal>
     </>
   );
