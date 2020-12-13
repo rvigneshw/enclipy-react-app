@@ -1,9 +1,10 @@
-import { Modal, Button, Tooltip, Input, Typography, Radio, Select } from "antd";
+import { Modal, Button, Tooltip, Typography, Select } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 
-import { AES } from "crypto-js";
-
+const smallText = {
+  fontSize: 10,
+};
 export default function SettingsModal(props) {
   const { Option } = Select;
   const { Text } = Typography;
@@ -14,9 +15,6 @@ export default function SettingsModal(props) {
 
   const showModal = () => {
     setmodalVisible(true);
-  };
-  const encryptText = (text) => {
-    return AES.encrypt(text, "SECRET_TOKEN").toString();
   };
 
   const handleOk = () => {
@@ -66,12 +64,9 @@ export default function SettingsModal(props) {
           <Option value="hoverDecrypt">Decrypted view only on hover</Option>
         </Select>
         <br></br>
-        <Text type="secondary">
-          These settings are local to this device only.
-        </Text>
-        <br></br>
-        <Text type="secondary">
-          You may need to refresh the page in order for settings to take effect.
+        <Text type="secondary" style={smallText}>
+          These settings are local to this device only.(You need to refresh the
+          page in order for settings to take effect.)
         </Text>
       </Modal>
     </>

@@ -12,12 +12,15 @@ function Home(props) {
   const { loading, error, data, refetch } = useQuery(GET_MY_CLIPS);
   if (error) return `Error! ${error.message}`;
   const { Content } = Layout;
-
+  if (!localStorage.getItem("view")) {
+    localStorage.setItem("view", "viewDecrypt");
+  }
   return (
     <div>
       <AppHeader
         searchString={searchString}
         setsearchString={setsearchString}
+        refetch={refetch}
         loading={loading}
       />
       <Content

@@ -79,11 +79,11 @@ export function ClipCard({ data, refetch }) {
 
   const handleClick = (e) => {};
   const copySuccess = () => {
-    message.success("Copied to Clipboard!");
+    message.success("Copied to Clipboard!", 1);
   };
 
   const copyError = () => {
-    message.error("Unable to Copy, Please check Clipboard permissions");
+    message.error("Unable to Copy, Please check Clipboard permissions", 1);
   };
   const handleMouseOver = (e) => {
     if (!editable) {
@@ -100,8 +100,6 @@ export function ClipCard({ data, refetch }) {
   const onTextAreaValueChange = ({ target: { value } }) => {
     setDataToDisplay(value);
   };
-  const handleClipUpdate = () => {};
-  // setDataToDisplay(decryptText(encryptedData));
   return (
     <Card
       onClick={handleClick}
@@ -139,7 +137,7 @@ export function ClipCard({ data, refetch }) {
             shape="circle"
             icon={<CopyOutlined />}
             onClick={(e) => {
-              var result = copyTextToClipboard(
+              copyTextToClipboard(
                 decryptText(encryptedData),
                 copySuccess,
                 copyError

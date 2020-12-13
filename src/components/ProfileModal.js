@@ -1,9 +1,12 @@
-import { Modal, Button, Tooltip,  Typography } from "antd";
+import { Modal, Button, Tooltip, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { Descriptions } from "antd";
-import { AES,enc } from "crypto-js";
+import { AES, enc } from "crypto-js";
 
+const smallText = {
+  fontSize: 10,
+};
 const decryptText = (text) => {
   var bytes = AES.decrypt(text, localStorage.getItem("jwt"));
   var originalText = bytes.toString(enc.Utf8);
@@ -11,9 +14,8 @@ const decryptText = (text) => {
   // return text;
 };
 export default function ProfileModal(props) {
-  const { Title, Text } = Typography;
+  const { Text } = Typography;
   const [modalVisible, setmodalVisible] = useState(false);
-
 
   const user = JSON.parse(decryptText(localStorage.getItem("user")));
 
@@ -42,8 +44,22 @@ export default function ProfileModal(props) {
           </Button>,
         ]}
       >
-        <Title level={5}>
-          Signed in as {user.username}{" "}
+        <ProfileScreen user={user} />
+        <Text type="secondary" style={smallText}>
+          These are the only details we have about you other than your encrypted
+          clips.
+        </Text>
+      </Modal>
+    </>
+  );
+}
+
+const ProfileScreen = ({ user }) => {
+  return (
+    <div>
+      <Descriptions bordered column={1}>
+        <Descriptions.Item label="Username">
+          {user.username}
           <Button
             danger
             shape="round"
@@ -59,23 +75,7 @@ export default function ProfileModal(props) {
           >
             Logout
           </Button>
-        </Title>
-
-        <ProfileScreen user={user} />
-        <Text type="secondary">
-          These are the only details we have about you other than your encrypted
-          clips.
-        </Text>
-      </Modal>
-    </>
-  );
-}
-
-const ProfileScreen = ({ user }) => {
-  return (
-    <div>
-      <Descriptions bordered column={1}>
-        <Descriptions.Item label="Username">{user.username}</Descriptions.Item>
+        </Descriptions.Item>
         <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
         <Descriptions.Item label="Provider">{user.provider}</Descriptions.Item>
         {/* <Descriptions.Item label="Total Clips"> */}

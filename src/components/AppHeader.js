@@ -1,15 +1,11 @@
 import React from "react";
-import { Button, Input } from "antd";
-import {
-  SearchOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { Button, Input, message, Tooltip } from "antd";
+import { SearchOutlined, CloseOutlined, UndoOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
 
 import ClipBoardModal from "./ClipBoardModal";
 import SettingsModal from "./SettingsModal";
 import ProfileModal from "./ProfileModal";
-
 
 export default class AppHeader extends React.Component {
   state = {
@@ -23,8 +19,11 @@ export default class AppHeader extends React.Component {
   handleSearchOn = (e) => {
     this.setState({ searchOpen: !this.state.searchOpen });
   };
+  refetchData = (e) => {
+    message.loading("Refreshing clips", 1);
+    this.props.refetch();
+  };
   render() {
-    // if (this.state.searchOpen) return <AppHeaderSearchOn />;
     if (this.state.searchOpen) {
       return (
         <AppHeaderSearchOn
@@ -44,7 +43,7 @@ export default class AppHeader extends React.Component {
     return (
       <Row justify="center" style={{ marginTop: 2, background: "#FFF" }}>
         <Col
-          xs={{ span: 5 }}
+          xs={{ span: 4 }}
           sm={{ span: 4 }}
           md={{ span: 2 }}
           lg={{ span: 1 }}
@@ -53,7 +52,7 @@ export default class AppHeader extends React.Component {
           <ProfileModal />
         </Col>
         <Col
-          xs={{ span: 5 }}
+          xs={{ span: 4 }}
           sm={{ span: 4 }}
           md={{ span: 2 }}
           lg={{ span: 1 }}
@@ -62,22 +61,41 @@ export default class AppHeader extends React.Component {
           <SettingsModal />
         </Col>
         <Col
-          xs={{ span: 5 }}
+          xs={{ span: 4 }}
           sm={{ span: 4 }}
           md={{ span: 2 }}
           lg={{ span: 1 }}
           xl={{ span: 1 }}
         >
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<SearchOutlined />}
-            onClick={this.handleSearchOn}
-            size="large"
-          />
+          <Tooltip title="Search">
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<SearchOutlined />}
+              onClick={this.handleSearchOn}
+              size="large"
+            />
+          </Tooltip>
         </Col>
         <Col
-          xs={{ span: 5 }}
+          xs={{ span: 4 }}
+          sm={{ span: 4 }}
+          md={{ span: 2 }}
+          lg={{ span: 1 }}
+          xl={{ span: 1 }}
+        >
+          <Tooltip title="Refresh">
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<UndoOutlined />}
+              onClick={this.refetchData}
+              size="large"
+            />
+          </Tooltip>
+        </Col>
+        <Col
+          xs={{ span: 4 }}
           sm={{ span: 4 }}
           md={{ span: 2 }}
           lg={{ span: 1 }}
